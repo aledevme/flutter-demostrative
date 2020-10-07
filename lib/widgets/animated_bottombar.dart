@@ -4,8 +4,11 @@ import 'package:provider/provider.dart';
 
 class AnimatedBottomBar extends StatefulWidget {
 
+  //list of type BarItem
   final List <BarItem> barItems;
+  //Duration of our animation
   final Duration animationDuration;
+  //receive controller of pageview
   final PageController controller;
 
   AnimatedBottomBar({
@@ -22,6 +25,7 @@ class AnimatedBottomBar extends StatefulWidget {
 class _AnimatedBottomBarState extends State<AnimatedBottomBar> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
+    //call our provider for our provider class model "ProviderApp"
     var providerApp = Provider.of<ProviderApp>(context);
 
     return Material(
@@ -43,17 +47,28 @@ class _AnimatedBottomBarState extends State<AnimatedBottomBar> with TickerProvid
   }
 
   List<Widget>_buildBarItems(ProviderApp providerApp){
+    //init list of widgets for our bar items
     List<Widget> _barItems = List();
-    
+    //loop of our baritems
     for(int i=0; i< widget.barItems.length; i++){
+
+      //detect when option is selected, our index currentpage in provider and [i] in the loop
       bool isSelected = providerApp.currentPage == i;
+
+      //passing item data for our BarItem model 
       BarItem item = widget.barItems[i];
-        _barItems.add(
+      _barItems.add(
         InkWell(
           splashColor: Colors.transparent,
           onTap: (){
             setState(() {
+              //update currentPage in the provider
               providerApp.currentPage = i;
+              /*using pageview controller to move a certain screen 
+              * @param int page : we pass screen index
+              * @param Curve curve : we pass a curve animation
+              * @param Duration duration : we pass a duration of the animation
+              */
               widget.controller.animateToPage(i, curve:Curves.easeIn, duration: Duration(milliseconds: 300));
             });
           },
@@ -90,13 +105,12 @@ class _AnimatedBottomBarState extends State<AnimatedBottomBar> with TickerProvid
     return _barItems;
   }
 }
-
+//model barItem
 class BarItem {
   String name;
   IconData icon;
-  Color color;
 
   BarItem({
-    this.name, this.icon, this.color
+    this.name, this.icon
   });
 }

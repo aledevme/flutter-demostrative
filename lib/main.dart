@@ -8,6 +8,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //Envolve material app in a ChangeNotifierProvider to update our provider
     return ChangeNotifierProvider(
       create: (_) => ProviderApp(),
       child:  MaterialApp(
